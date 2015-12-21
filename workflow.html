@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Workflow tampoon.net</title>
+    <style>
+        *{ margin: 0; padding: 0; }
+        html, body{ width: 100%; height: 100%; }
+
+        body{ background-color: black; color: white; font-family: Verdana; }
+
+        a{ text-decoration: none; color: cornflowerblue; }
+
+        p{ margin: 20px; }
+
+        h3{ margin: 5px; color: red; }
+
+        #main{ margin-right: auto; margin-left: auto; width: 800px; }
+    </style>
+</head>
+<body>
+<div id="main">
+    <h3>Workflow to update tampoons references in production</h3>
+
+    <p>
+        A) go to your <a href="https://console.aws.amazon.com/s3/home?region=us-west-2#" target="_blank">S3 bucket</a> (and log in with the right credentials)<br><br>
+        - Naviguate thru  presteege-bucket/tampoon/icons<br>
+        - Upload your new icons<br>
+        - And make them public by choosing the right options in "Actions"<br>
+        - (The icons names must be the same as the reference in the tbl_tampoons)
+    </p>
+    <p>
+        B) go to <a href="http://52.10.174.107/pma/" target="_blank">PhpMyAdmin</a> (and log with the same credentials) <br><br>
+        - Choose maria-instance.cdrztizo8ded.us-west-2.rds.amazonaws.com:3306<br>
+        server in the drop down menu
+    </p>
+    <p>
+        C) Open tampoon database and click on table "tbl_tampoons"<br><br>
+        - Click on "Operations"<br>
+        - Truncate the table (vider sans supprimer surtout!)<br>
+        - Set back AUTO_INCREMENT to 1
+    </p>
+    <p>
+        D) Import your new CSV clicking on "importer"<br><br>
+        - Choose semicolon ";" as cells separator<br>
+        - Choose nothing as "colonnes entourées par"
+    </p>
+    <hr/>
+    <h3>Workflow to make changes on the FO (front end) part</h3>
+    <p>
+        A) Before any modification open SmartGit and "pull" any modifications someone else might have done meanwhile<br>
+        B) Open phpstorm and the tampoon project<br>
+        C) Make your modifications (no need to save)<br>
+        D) Open SmartGit and hit "cmd + k"<br>
+        E) Enter a commit message then click on "commit & push"<br>
+        D) Wait around 20 seconds to see the changes
+    </p>
+</div>
+
+</body>
+</html>

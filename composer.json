@@ -1,0 +1,6 @@
+{
+  "require": {
+    "phpmailer/phpmailer": "~5.2",
+    "dompdf/dompdf": "dev-master"
+  }
+}

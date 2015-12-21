@@ -1,0 +1,34 @@
+*{ margin: 0; padding: 0;}
+
+html, body{
+    width: 100%;
+    height: 100%;
+}
+
+body{ font-family: arial, sans-serif; font-size: 12px; }
+
+.icon{ width: 50px; height: 50px; text-align: center;}
+
+#infos{ font-size: 18px; display: none; padding: 5px; color: white; width: 150px; height: 80px; /*position: fixed;*/ background-color: black; opacity: 0.8; border-radius: 5px; /*left: 80%; top: 10px;*/ text-align: center; }
+
+#checkvalues{ position: fixed; left: 20%; font-weight: bold; font-size: 18px; visibility: hidden; padding: 15px; color: white; width: 600px; height: 95%; background-color: black; opacity: 0.9; border-radius: 5px; top: 10px; text-align: center; }
+
+#return_from_checkvalues{ overflow: auto; height: 90%; }
+
+#btnClose{ width: 26px; height: 26px; border-radius: 13px; background-color: white; cursor: pointer; color: black; }
+
+#top{ text-align: center; width: 100%; margin-left: 20%; }
+
+a{ text-decoration: none; color: cornflowerblue; font-family: arial, sans-serif;}
+
+p{ margin-top: 10px; margin-bottom: 10px; }
+
+.container_icon{  display: inline-block; margin: 15px; }
+
+.bigInput{ width: 300px; height: 35px; font-weight: bold; font-size: 25px; border-radius: 7px; }
+
+#bottom{ text-align: center; }
+
+#top div{ float: left; padding: 10px; margin-right: 10px; }
+
+#main{ clear: both; }
