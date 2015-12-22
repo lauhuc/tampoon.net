@@ -28,3 +28,6 @@ define('CHANGE_PASSWD', 'Mise à jour mot de passe!');
 define('NEW_PASSWD', 'Nouveau mot de passe');
 define('REPEAT_PASSWD', 'Répéter not de passe');
 define('UPDATE', 'Mettre à jour');
+define('PURCHASE_ORDER', 'Bon de commande');
+define('CLIENT', 'Client');
+define('CARRIAGE_FREE', 'franco de port');

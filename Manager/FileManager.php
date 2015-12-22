@@ -64,7 +64,6 @@ class FileManager implements IC
                     $csv .= $reference.';'.trim($v).';'.$_POST['quantityTampoon'].';'.strtr($_POST['total'], '.', ',').' '.html_entity_decode(IC::CURRENCY[0]).PHP_EOL;
 
                 }else $csv .= $reference.';'.trim($v).PHP_EOL;
-
             }
 
         endforeach;
@@ -84,20 +83,30 @@ class FileManager implements IC
     {
         $this->pdfPath = pathinfo(__DIR__)['dirname'].IC::DS.'pdf'.IC::DS.$this->ref.'.pdf';
 
-        $htmlOutput = '<div id="order_details"><h1>Bon de commande</h1><br>Total Tampoon '.$p1_datas_post['quantityTampoon'];
-        $htmlOutput .= '<br>Total h.t., franco de port: '.$p1_datas_post['total'].' '.IC::CURRENCY[0];
+        $htmlOutput = '<div id="order_details"><h1>'.PURCHASE_ORDER.'</h1><br>Total Tampoon '.$p1_datas_post['quantityTampoon'];
+
+        if($p1_datas_post['standingUnit'] === '1')
+        {
+            $htmlOutput .= '<br><font color="green">1 '.STANDING_UNIT.' 27 '.UNITS.'</font>';
+
+        }elseif($p1_datas_post['standingUnit'] === '2')
+        {
+            $htmlOutput .= '<br><font color="green">1 '.STANDING_UNIT.' 45 '.UNITS.'</font>';
+        }
+
+        $htmlOutput .= '<br>Total h.t., '.CARRIAGE_FREE.': '.$p1_datas_post['total'].' '.IC::CURRENCY[0];
         $htmlOutput .= '<br>Date: <b>'.$this->date.'</b>';
-        $htmlOutput .= '<br>CLIENT: <b>'.$p1_datas_post['clientEmail'].'</b></div>';
+        $htmlOutput .= '<br>'.strtoupper(CLIENT).': <b>'.$p1_datas_post['clientEmail'].'</b></div>';
         $htmlOutput .= '<div id="icons">'.PHP_EOL.'<table>';
 
         $i = 0;
 
         foreach($p1_datas_post as $k => $v):
 
-            $reference = strtr($k, '_', ' ');
-
             if(FALSE !== stripos($k, '_'))      //the post key that has underscore correspond to tampoon ref
             {
+                $reference = strtr($k, '_', ' ');
+
                 $i++;
 
                 if($i === 6)

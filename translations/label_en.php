@@ -28,3 +28,6 @@ define('CHANGE_PASSWD', 'Update your password!');
 define('NEW_PASSWD', 'New password');
 define('REPEAT_PASSWD', 'Repeat password');
 define('UPDATE', 'Update');
+define('PURCHASE_ORDER', 'Purchase order');
+define('CLIENT', 'Customer');
+define('CARRIAGE_FREE', 'carriage free');
