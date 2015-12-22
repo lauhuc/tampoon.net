@@ -13,16 +13,6 @@ use Model\InitConsts as IC;
 class MailManager implements IC
 {
     /**
-     * @var string
-     */
-    private $sender     = 'webmaster@tampoon.net';
-
-    /**
-     * @var string
-     */
-    private $senderName = 'Donald GREGOIRE';
-
-    /**
      * @var
      */
     private $PHPMailer;
@@ -52,10 +42,10 @@ class MailManager implements IC
         $this->PHPMailer->Username     = IC::GMAIL_BOX;
 //Password to use for SMTP authentication
         $this->PHPMailer->Password     = IC::GMAIL_PASSWORD;            //BE CAREFUL with the $ when using double quotes!!!
-        $this->PHPMailer->setFrom($this->sender, $this->senderName);
-        $this->PHPMailer->addReplyTo($this->sender, $this->senderName);
+        $this->PHPMailer->setFrom(IC::SENDER, IC::SENDER_NAME);
+        $this->PHPMailer->addReplyTo(IC::SENDER, IC::SENDER_NAME);
         $this->PHPMailer->addAddress($p1_email, strstr($p1_email, '@', TRUE));
-        //$this->PHPMailer->addAddress('doetlaugreg@gmail.com', 'Laurence GREGOIRE');
+        //$this->PHPMailer->addAddress(IC::GMAIL_BOX, IC::SENDER_NAME);
         $this->PHPMailer->Subject = 'Order Ref: '.$p2_ref;
         $this->PHPMailer->msgHTML('<html><head></head><body><h1>Tampoon order from '.$p1_email.' the '.$p4_date.'</h1></body></html>');
 

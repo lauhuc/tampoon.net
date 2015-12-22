@@ -63,9 +63,9 @@ include_once '../translations/label_'.$_SESSION['locale'].'.php';
      </div>
     <div>
         <h3><?php echo STANDING_UNIT ?></h3>
-        <label><?php echo NO ?></label><input type="radio" value="0" name="display_unit" checked>
-        <label>27 <?php echo UNITS ?></label><input type="radio" value="27" name="display_unit" >
-        <label>45 <?php echo UNITS ?></label><input type="radio" value="45" name="display_unit" >
+        <label><?php echo NO ?></label><input type="radio" value="3" name="standing_unit" checked>
+        <label>27 <?php echo UNITS ?></label><input type="radio" value="1" name="standing_unit" >
+        <label>45 <?php echo UNITS ?></label><input type="radio" value="2" name="standing_unit" >
     </div>
     <div id="infos"><p id="return_from_makeSum" style="margin-bottom: 0;"></p></div>
 

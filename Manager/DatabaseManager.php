@@ -131,7 +131,8 @@ class DatabaseManager implements IC
                     SET id_customer = (SELECT id FROM tbl_customers WHERE tbl_customers.email ="'.$this->sqli->real_escape_string($p1_datas_post['clientEmail']).'"),
                     date_order = "'.$this->dateOrder.'",
                     total = "'.$this->sqli->real_escape_string($p1_datas_post['total']).'",
-                    status = '.$p2_filesSaved;
+                    status = '.$p2_filesSaved.',
+                    id_standing_units ='.(int)$this->sqli->real_escape_string($p1_datas_post['standingUnit']);
 
         $resultOne = $this->sqli->query($queryOne);
 
@@ -143,7 +144,7 @@ class DatabaseManager implements IC
 
             foreach($p1_datas_post as $k => $v):
 
-                if(!empty($v) && !in_array($k, ['password', 'clientEmail', 'quantityTampoon', 'total', ]))
+                if(FALSE !== stripos($k, '_'))      //the post key that has underscore correspond to tampoon ref
                 {
                     $tampoonRef = strtr($k, '_', ' ');
                     $onlyTampoonInfos[$tampoonRef] = $v;

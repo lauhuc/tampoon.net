@@ -78,6 +78,7 @@ function processOrder()
 
     if(email != '')
     {
+        var standingUnits = document.getElementsByName('standing_unit');
         var containerSendMailLink = document.getElementById('pForProcessOrder');
         containerSendMailLink.innerHTML = '<img src="../img/spinner.gif" style="border: none;" />';
 
@@ -90,6 +91,14 @@ function processOrder()
         oData.append('password', document.getElementById('password').value);
         oData.append('quantityTampoon', sum);
         oData.append('total', total);
+
+        for(var i = 0; i < standingUnits.length; i++)
+        {
+            if(standingUnits[i].checked)
+            {
+                oData.append('standingUnit', standingUnits[i].value);
+            }
+        }
 
         oReq.onload = function(oEvent)
         {

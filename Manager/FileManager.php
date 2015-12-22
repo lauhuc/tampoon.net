@@ -54,7 +54,7 @@ class FileManager implements IC
 
         foreach($p1_datas_post as $k => $v):
 
-            if(!empty($v) && !in_array($k, ['password', 'clientEmail', 'quantityTampoon', 'total', ]))
+            if(FALSE !== stripos($k, '_'))      //the post key that has underscore correspond to tampoon ref
             {
                 $i++;
                 $reference = strtr($k, '_', ' ');
@@ -96,7 +96,7 @@ class FileManager implements IC
 
             $reference = strtr($k, '_', ' ');
 
-            if(!empty($v) && !in_array($k, ['password', 'clientEmail', 'quantityTampoon', 'total', ]))
+            if(FALSE !== stripos($k, '_'))      //the post key that has underscore correspond to tampoon ref
             {
                 $i++;
 

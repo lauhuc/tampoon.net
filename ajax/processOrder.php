@@ -10,33 +10,38 @@ require_once '../Model/InitConsts.php';  //ENTRY POINT of execution => first cla
 
 if(count($_POST) > 0)
 {
+    foreach($_POST as $k => $v):
+
+        $cleanedValues = trim($v);
+
+        if(!empty($cleanedValues)) $datasPost [$k] = $cleanedValues;
+
+    endforeach;
 
     include_once '../translations/label_'.$_SESSION['locale'].'.php';
 
-    $email      = trim($_POST['clientEmail']);
-    $password   = trim($_POST['password']);
-
-    if(!empty($email) && !empty($password))
+    if(!empty($datasPost['clientEmail']) && !empty($datasPost['password']))
     {
+        $errorMsg = '';
         include_once '../Manager/DatabaseManager.php';
 
         $dbm = new \Manager\DatabaseManager;
-        $correctUser = $dbm->fetchUser($email, $password);
+        $correctUser = $dbm->fetchUser($datasPost['clientEmail'], $datasPost['password']);
 
         if(is_bool($correctUser))
         {
             include_once '../Manager/FileManager.php';
 
-            $fm = new \Manager\FileManager($email, $dbm->dateOrder);
-            $outputCSV = $fm->formatAndWriteCSV($_POST);
+            $fm = new \Manager\FileManager($datasPost['clientEmail'], $dbm->dateOrder);
+            $outputCSV = $fm->formatAndWriteCSV($datasPost);
 
-            if(is_string($outputCSV)) $errorMsg = $outputCSV.'<br>';
+            if(is_string($outputCSV)) $errorMsg .= $outputCSV.'<br>';
 
-            $outputPDF = $fm->formatAndWritePDF($_POST);
+            $outputPDF = $fm->formatAndWritePDF($datasPost);
 
             if(is_string($outputPDF)) $errorMsg .= $outputPDF.'<br>';
 
-            $savedOrder = $dbm->saveOrder($_POST, ($outputPDF && $outputCSV));
+            $savedOrder = $dbm->saveOrder($datasPost, ($outputPDF && $outputCSV));
 
             if(is_string($savedOrder)) $errorMsg .= $savedOrder.'<br>';
 
@@ -44,7 +49,7 @@ if(count($_POST) > 0)
             {
                 include_once '../Manager/MailManager.php';
 
-                $mm = new \Manager\MailManager($email, $fm->ref, [$fm->csvPath, $fm->pdfPath, ], $dbm->date);
+                $mm = new \Manager\MailManager($datasPost['clientEmail'], $fm->ref, [$fm->csvPath, $fm->pdfPath, ], $dbm->dateOrder);
                 $output = $mm->send();
 
                 if($output)
@@ -63,5 +68,5 @@ if(count($_POST) > 0)
 
     }else $errorMsg = INPUTS_MANDATORIES;
 
-    echo 'e<font color="red">'.$errorMsg.'</font>';
+    if(!empty($errorMsg)) echo 'e<font color="red">'.$errorMsg.'</font>';
 }
