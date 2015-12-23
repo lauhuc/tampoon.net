@@ -1,63 +1,54 @@
 <?php namespace login;
 
 use Manager\DatabaseManager;
-use Model\InitConsts;
+use Manager\UtilitiesManager;
 
 session_start();
-include_once '../translations/label_'.$_SESSION['locale'].'.php';
+include_once '../translations/label_'.$_SESSION['locale'].'.php'; //entry const file translation
 
 if(count($_POST) > 0)
 {
-    $b_for_check_empty = TRUE;
+    require_once '../Model/InitConsts.php';
+    require_once '../Manager/UtilitiesManager.php';
 
-    foreach($_POST as $s_key => $s_value):
-
-        $s_strip_spaces = trim($s_value);
-
-        if(empty($s_strip_spaces))
-        {
-            $b_for_check_empty = FALSE;
-            BREAK;
-
-        }else $a_cleaned_values [$s_key] = $s_strip_spaces;
-
-    endforeach;
-
-    if($b_for_check_empty)
+    $a_cleaned_values = UtilitiesManager::checkEmptyDatasPost($_POST);
+    
+    if(is_array($a_cleaned_values))
     {
-        require_once '../Model/InitConsts.php';
-
-        if(isset($_POST['first_login']))
+        if(isset($_POST['first_login'])) //first login comes from an HIDDEN input
         {
-            if(sha1($a_cleaned_values['psk']) === InitConsts::HASH_PASSWD) //one always check the hash value
+            $firstLoginRequirements = UtilitiesManager::checkUserFirstLoginRequirement($a_cleaned_values);
+
+            if(is_bool($firstLoginRequirements))
             {
-                if(strlen($a_cleaned_values['new_password']) > 5)
+                require_once '../Manager/DatabaseManager.php';
+                $mm = new DatabaseManager;
+                $output = $mm->updatePasswdAndlogin($a_cleaned_values);
+
+                if(is_bool($output))
                 {
-                    if(sha1($a_cleaned_values['new_password']) !== InitConsts::HASH_PASSWD)// the new password cannot be as the PSK
-                    {
-                        require_once '../Manager/DatabaseManager.php';
+                    $_SESSION['customer'] = $a_cleaned_values['email'];
+                    header('Location: ../order');
 
-                        $mm = new DatabaseManager;
+                }else $errorMsg = $output;
 
-                        $output = $mm->updatePasswdAndlogin($a_cleaned_values);
+            }else $errorMsg = $firstLoginRequirements;
 
-                        if(is_bool($output))
-                        {
-                            $_SESSION['customer'] = $a_cleaned_values['email'];
-                            header('Location: ../order');
+        }else //most frequent scenario : when user already registered
+        {
+            require_once '../Manager/DatabaseManager.php';
+            $mm = new DatabaseManager;
+            $output = $mm->fetchUser($a_cleaned_values['email'], $a_cleaned_values['password']);
 
-                        }else $errorMsg = $output;
+            if(is_bool($output))
+            {
+                $_SESSION['customer'] = $a_cleaned_values['email'];
+                header('Location: ../order');
 
-                    }else $errorMsg = DEFINE_NEW_PASSWD;
-
-                }else $errorMsg = MIN_LEN_PASSWD;
-
-            }else $errorMsg = CORRECT_PSK;
-
-        }else $errorMsg = '@TODO!';
+            }else $errorMsg = $output;
+        }
 
     }else $errorMsg = INPUTS_MANDATORIES;
-
 }
 ?>
 <!DOCTYPE html>
@@ -75,16 +66,21 @@ if(count($_POST) > 0)
 <div id="main">
     <h1><?php echo CONNECTION ?></h1>
     <form method="post" name="the_form" id="the_form">
-        <input type="email" name="email" placeholder="Email" onkeyup="handleSession(this.value);" value="<?php echo (!empty($a_cleaned_values['email'])) ? $a_cleaned_values['email']: '' ?>"><br>
+        <input type="email" name="email" placeholder="Email" onkeyup="handleSession(this.value);" value="<?php echo (!empty($a_cleaned_values['email'])) ? $a_cleaned_values['email'] : '' ?>"><br>
         <p id="return_from_handleSession">
             <?php
-            if(isset($errorMsg))
+            if(isset($errorMsg) && isset($_POST['first_login']))
             {
-                if(isset($_POST['first_login'])) echo '<input type="hidden" name="first_login" value="true">';
-
+                echo '<input type="hidden" name="first_login" value="true">';
                 echo '<br><input type="password" name="psk" value="'.$a_cleaned_values['psk'].'" placeholder="'.PSK.'">';
                 echo '<br><input type="password" name="new_password" placeholder="'.NEW_PASSWD.'">';
                 echo '<br><a href="#" onclick="document.getElementById(\'the_form\').submit();">'.CONNECTION.'</a>';
+                echo '<br><font color="red">'.$errorMsg.'</font>';
+
+            }elseif(isset($errorMsg))
+            {
+                echo '<br><input type="password" name="password" placeholder="'.PASSWD.'">';
+                echo '<br><br><a href="#" onclick="document.getElementById(\'the_form\').submit();">'.CONNECTION.'</a>';
                 echo '<br><font color="red">'.$errorMsg.'</font>';
             }
             ?>

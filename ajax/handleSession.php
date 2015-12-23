@@ -43,14 +43,14 @@ if(isset($_POST) && count($_POST) > 0)
                 if($output)
                 {
                     echo '<br><input type="password" name="password" placeholder="'.PASSWD.'">';
-                    echo '<br><a href="#" onclick="login();">'.CONNECTION.'</a>';
+                    echo '<br><br><a href="#" onclick="document.getElementById(\'the_form\').submit();">'.CONNECTION.'</a>';
 
                 }else
                 {
                     echo '<input type="hidden" name="first_login" value="true">';
                     echo '<br><input type="password" name="psk" placeholder="'.PSK.'">';
                     echo '<br><input type="password" name="new_password" placeholder="'.NEW_PASSWD.'">';
-                    echo '<br><a href="#" onclick="document.getElementById(\'the_form\').submit();">'.CONNECTION.'</a>';
+                    echo '<br><br><a href="#" onclick="document.getElementById(\'the_form\').submit();">'.CONNECTION.'</a>';
                 }
 
             }else $errorMsg .= $output;

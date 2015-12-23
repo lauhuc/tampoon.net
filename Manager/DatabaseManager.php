@@ -34,41 +34,36 @@ class DatabaseManager implements IC
     {
         if(NULL !== $p2_password)
         {
-            $encryptedPassword = sha1($p2_password);
-
             $query = 'SELECT email, password
                       FROM tbl_customers
                       WHERE TRIM(email) = "'.$this->sqli->real_escape_string($p1_email).'"
-                      AND password = "'.sha1($this->sqli->real_escape_string(trim($p2_password))).'"';
+                      AND password = "'.sha1($this->sqli->real_escape_string($p2_password)).'"';
 
             $resultFetchMail = $this->sqli->query($query);
 
             if(is_object($resultFetchMail))
             {
-                if ($resultFetchMail->num_rows === 1)
+                $numRows = $resultFetchMail->num_rows;
+
+                if ($numRows === 1)
                 {
-                    $row = $resultFetchMail->fetch_array();
+                    return TRUE;
 
-                    if($encryptedPassword !== IC::HASH_PASSWD && $row['password'] !== IC::HASH_PASSWD)
-                    {
-                        return TRUE;
+                }elseif($numRows === 0)
+                {
+                    return WRONG_CREDENTIALS;
 
-                    }elseif($encryptedPassword === IC::HASH_PASSWD && $row['password'] === IC::HASH_PASSWD) //same initial hash for everyone BUT need to check also if the user typed the same password
-                    {
-                        return '<a href="../admin/changePassword.php?email='.$p1_email.'" target="_blank">'.UPDATE_PASSWORD.'</a>';
-
-                    }elseif($encryptedPassword !== IC::HASH_PASSWD && $row['password'] === IC::HASH_PASSWD)
-                    {
-                        return CORRECT_PSK;
-                    }
-
-                }else return WRONG_CREDENTIALS;
+                }elseif($numRows > 1) //really few probabilities it happens
+                {
+                    return DUPLICATED_MAILS_IN_DB;
+                }
 
             }else return $this->sqli->error;
 
         }else{
 
-            $query = 'SELECT email, password FROM tbl_customers
+            $query = 'SELECT email, password
+                      FROM tbl_customers
                       WHERE TRIM(email) = "'.$this->sqli->real_escape_string($p1_email).'"';
 
             $resultFetchMail = $this->sqli->query($query);
@@ -226,6 +221,10 @@ class DatabaseManager implements IC
         return TRUE;
     }
 
+    /**
+     * @param array $datasPost
+     * @return bool|string
+     */
     public function updatePasswdAndlogin(array $datasPost)
     {
 

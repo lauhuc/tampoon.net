@@ -314,11 +314,6 @@ function handleSession(p1_email)
     }
 }
 
-function login()
-{
-    alert(true);
-}
-
 function array_rand(input, num_req) {
     //  discuss at: http://phpjs.org/functions/array_rand/
     // original by: Waldo Malqui Silva (http://waldo.malqui.info)
