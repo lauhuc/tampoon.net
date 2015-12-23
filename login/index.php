@@ -6,13 +6,15 @@ use Manager\UtilitiesManager;
 session_start();
 include_once '../translations/label_'.$_SESSION['locale'].'.php'; //entry const file translation
 
+if(isset($_GET['do']) && trim($_GET['do']) === 'logout') unset($_SESSION['customer']);
+
 if(count($_POST) > 0)
 {
     require_once '../Model/InitConsts.php';
     require_once '../Manager/UtilitiesManager.php';
 
     $a_cleaned_values = UtilitiesManager::checkEmptyDatasPost($_POST);
-    
+
     if(is_array($a_cleaned_values))
     {
         if(isset($_POST['first_login'])) //first login comes from an HIDDEN input

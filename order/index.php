@@ -47,7 +47,7 @@ if(!isset($_SESSION['customer'])) header('Location: ../login');
 <div id="top">
     <div>
         <img src="../img/logo-tp.png" style="border: none; width: 200px; margin-right: 10px;"/>
-        <br><b><?php echo $_SESSION['customer'] ?></b>
+        <br><a href="../login/?do=logout">Logout(<?php echo $_SESSION['customer'] ?>)</a>
     </div>
     <div>
         <form style="float: left">
