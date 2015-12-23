@@ -68,13 +68,13 @@ if(count($_POST) > 0)
 <div id="main">
     <h1><?php echo CONNECTION ?></h1>
     <form method="post" name="the_form" id="the_form">
-        <input type="email" name="email" placeholder="Email" onkeyup="handleSession(this.value);" value="<?php echo (!empty($a_cleaned_values['email'])) ? $a_cleaned_values['email'] : '' ?>"><br>
+        <input type="email" name="email" placeholder="Email" onkeyup="handleSession(this.value);" value="<?php echo (!empty($_POST['email'])) ? $_POST['email'] : '' ?>"><br>
         <p id="return_from_handleSession">
             <?php
             if(isset($errorMsg) && isset($_POST['first_login']))
             {
                 echo '<input type="hidden" name="first_login" value="true">';
-                echo '<br><input type="password" name="psk" value="'.$a_cleaned_values['psk'].'" placeholder="'.PSK.'">';
+                echo '<br><input type="password" name="psk" value="'.$_POST['psk'].'" placeholder="'.PSK.'">';
                 echo '<br><input type="password" name="new_password" placeholder="'.NEW_PASSWD.'">';
                 echo '<br><a href="#" onclick="document.getElementById(\'the_form\').submit();">'.CONNECTION.'</a>';
                 echo '<br><font color="red">'.$errorMsg.'</font>';
