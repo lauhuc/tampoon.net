@@ -12,7 +12,7 @@ define('UNITS', 'Units');
 define('INDEX_BOTTOM_MSG', 'References out of stock! Available within 3 weeks.');
 define('INPUTS_MANDATORIES', 'All inputs are mandatories!');
 define('ENABLE_MAIL', 'OK but mails are not enabled (enable them in const)');
-define('UPDATE_PASSWORD', 'You must update your password  before please: ');
+define('UPDATE_PASSWORD', 'Update here your password');
 define('CORRECT_PSK', 'You must type the correct pre-shared password to update it! ');
 define('WRONG_CREDENTIALS', 'Your credentials seem invalid!');
 define('UNEXISTING_EMAIL', 'We could not find your email in our database!');

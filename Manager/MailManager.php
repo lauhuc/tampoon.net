@@ -43,8 +43,8 @@ class MailManager implements IC
         $this->PHPMailer->Username     = IC::GMAIL_BOX;
 //Password to use for SMTP authentication
         $this->PHPMailer->Password     = IC::GMAIL_PASSWORD;            //BE CAREFUL with the $ when using double quotes!!!
-        $this->PHPMailer->setFrom(IC::SENDER, IC::SENDER_NAME);
-        $this->PHPMailer->addReplyTo(IC::SENDER, IC::SENDER_NAME);
+        $this->PHPMailer->setFrom(IC::GMAIL_BOX, IC::SENDER_NAME);
+        $this->PHPMailer->addReplyTo(IC::GMAIL_BOX, IC::SENDER_NAME);
         $this->PHPMailer->addAddress($p1_email, $p5_sender);
         $this->PHPMailer->Subject = 'Order Ref: '.$p2_ref;
         $this->PHPMailer->msgHTML('<html><head></head><body><h3>'.TAMPOON_ORDER.' '.$p1_email.' '.THE.' '.$p4_date.'</h3></body></html>');

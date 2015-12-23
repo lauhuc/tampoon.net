@@ -12,7 +12,7 @@ define('UNITS', 'Pièces');
 define('INDEX_BOTTOM_MSG', 'Références écoulées! Disponibles dans un délai de 3 semaines.');
 define('INPUTS_MANDATORIES', 'Tous les champs sont obligatoires!');
 define('ENABLE_MAIL', "Ok mais l'envoie de mails n'est pas activé (dans interface init const)");
-define('UPDATE_PASSWORD', 'Vous devez changer ce mot de passe: ');
+define('UPDATE_PASSWORD', 'Changez ici votre mot de passe');
 define('CORRECT_PSK', 'Vous devez saisir le correct mot de passe initial pour le mettre à jour ');
 define('WRONG_CREDENTIALS', 'Identifiants incorrects!');
 define('UNEXISTING_EMAIL', 'Votre email ne semble pas être dans notre base de données!');
