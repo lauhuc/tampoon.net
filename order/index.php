@@ -52,20 +52,24 @@ include_once '../translations/label_'.$_SESSION['locale'].'.php';
             <option value="1"><?php echo FILL_50_WITH_1 ?></option>
             <option value="2"><?php echo FILL_100_WITH_1 ?></option>
         </select>
-            <br>
+            <p>
             <a href="#" onclick="clearAllInputsValues();"><?php echo CLEAR_VALUES ?></a>
+            </p>
         </form>
     </div>
     <div>
         <input type="text" id="num_items" placeholder="<?php echo DIFF_ITEMS ?>" style="width: 100px;">&nbsp;<input type="text" id="quantity" placeholder="<?php echo Q ?>" style="width: 50px;">
-        <br>
+        <p>
         <a href="#" onclick="fillXQuantitiesWithXItems(document.getElementById('quantity').value, document.getElementById('num_items').value);"><?php echo FILL ?></a>
+        </p>
      </div>
     <div>
-        <h3><?php echo STANDING_UNIT ?></h3>
-        <label><?php echo NO ?></label><input type="radio" value="3" name="standing_unit" checked>
-        <label>27 <?php echo UNITS ?></label><input type="radio" value="1" name="standing_unit" >
-        <label>45 <?php echo UNITS ?></label><input type="radio" value="2" name="standing_unit" >
+        <h2><?php echo STANDING_UNIT ?></h2>
+        <p>
+        <label><?php echo NO ?></label>&nbsp;<input type="radio" value="3" name="standing_unit" checked>
+        <label>27 <?php echo UNITS ?></label>&nbsp;<input type="radio" value="1" name="standing_unit" >
+        <label>45 <?php echo UNITS ?></label>&nbsp;<input type="radio" value="2" name="standing_unit" >
+        </p>
     </div>
     <div id="infos"><p id="return_from_makeSum" style="margin-bottom: 0;"></p></div>
 

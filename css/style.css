@@ -17,9 +17,9 @@ body{ font-family: arial, sans-serif; font-size: 12px; }
 
 #btnClose{ width: 26px; height: 26px; border-radius: 13px; background-color: white; cursor: pointer; color: black; }
 
-#top{ text-align: center; width: 100%; margin-left: 20%; }
+#top{ text-align: center; width: 100%; }
 
-a{ text-decoration: none; color: cornflowerblue; font-family: arial, sans-serif;}
+a{ text-decoration: none; color: cornflowerblue; font-family: arial, sans-serif; font-size: 18px; }
 
 p{ margin-top: 10px; margin-bottom: 10px; }
 
