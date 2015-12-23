@@ -33,3 +33,8 @@ define('CLIENT', 'Customer');
 define('CARRIAGE_FREE', 'carriage free');
 define('TAMPOON_ORDER', 'Tampoon order from');
 define('THE', 'the');
+define('CONNECTION', 'Connection');
+define('DUPLICATED_MAILS_IN_DB', 'This email has several records in the database please contact the admin');
+define('NO_INSCRIPTIONS_ALLOWED', "This email has no existence in the datadase. Our webiste accepts no automatic registers");
+define('PASSWD', 'Password');
+define('PSK', 'Pre-shared password');

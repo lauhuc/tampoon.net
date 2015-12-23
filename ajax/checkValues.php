@@ -1,4 +1,5 @@
-<?php
+<?php header('Content-type: text/html; charset="UTF-8";');
+
 if(count($_POST) > 0)
 {
     $i_sum = 0;

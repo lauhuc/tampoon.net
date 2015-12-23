@@ -279,6 +279,46 @@ function switchDivDisplay(p1_tampoon_q, p2_div_container_id)
     }
 }
 
+function handleSession(p1_email)
+{
+    if(p1_email.length > 5) //an email contains at least: x@x.xx
+    {
+        document.getElementById('return_from_handleSession').innerHTML = '<img src="../img/spinner.gif" style="border: none;" />';
+
+        var oData = new FormData(document.forms.namedItem('the_form'));
+
+        var oReq = new XMLHttpRequest();
+
+        oReq.open('POST', '../ajax/handleSession.php', true);
+
+        oReq.onload = function(oEvent)
+        {
+            if (oReq.status === 200)
+            {
+                if(oReq.responseText.substr(0, 1) === 'e')
+                {
+                    document.getElementById('return_from_handleSession').innerHTML = oReq.responseText.substr(1);
+
+                }else
+                {
+                    document.getElementById('return_from_handleSession').innerHTML = oReq.responseText;
+                }
+
+            }else
+            {
+                document.getElementById('return_from_handleSession').innerHTML = 'Error ' + oReq.status;
+            }
+        };
+
+        oReq.send(oData);
+    }
+}
+
+function login()
+{
+    alert(true);
+}
+
 function array_rand(input, num_req) {
     //  discuss at: http://phpjs.org/functions/array_rand/
     // original by: Waldo Malqui Silva (http://waldo.malqui.info)

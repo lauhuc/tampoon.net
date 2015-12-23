@@ -33,3 +33,8 @@ define('CLIENT', 'Client');
 define('CARRIAGE_FREE', 'franco de port');
 define('TAMPOON_ORDER', 'Commande tampoon de');
 define('THE', 'le');
+define('CONNECTION', 'Connexion');
+define('DUPLICATED_MAILS_IN_DB', 'Il y a des doublons avec cet email: contactez administrateur du site svp');
+define('NO_INSCRIPTIONS_ALLOWED', "Vous n'existez pas dans la base de données. Ce site n'accepte pas d'inscription automatique.");
+define('PASSWD', 'Mot de passe');
+define('PSK', 'Mot de passe provisoire');

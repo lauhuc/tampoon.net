@@ -1,6 +1,6 @@
-<?php
+<?php namespace ajax;
 
-namespace ajax;
+header('Content-type: text/html; charset="UTF-8";');
 
 use Manager\DatabaseManager;
 

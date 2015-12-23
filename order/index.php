@@ -12,63 +12,70 @@ if(in_array(trim($_GET['lg']), IC::LOCALE))
 
 include_once '../translations/label_'.$_SESSION['locale'].'.php';
 
+if(!isset($_SESSION['customer'])) header('Location: ../login');
 ?>
 <!DOCTYPE html>
 <html>
 <head lang="en">
     <meta charset="UTF-8">
     <title>Tampoon</title>
-    <link rel="icon" href="../img/favicon.ico" />
-    <meta name="description" content="Tampoon" />
+    <link rel="icon" href="../img/favicon.ico"/>
+    <meta name="description" content="Tampoon"/>
     <script>
-<?php
-    //pass PHP consts to JavaScript
-    echo 'var tampoonFirstRate = '.IC::TAMPOON_FIRST_RATE.';'.PHP_EOL;
-    echo 'var tampoonSecondRate = '.IC::TAMPOON_SECOND_RATE.';'.PHP_EOL;
-    echo 'var minimumQuantityOrder = '.IC::MINIMUM_Q_ORDER.';'.PHP_EOL;
-    echo 'var currency = "'.IC::CURRENCY[0].'";'.PHP_EOL;
-    echo 'var locale = "'.$_SESSION['locale'].'";'.PHP_EOL;
-?>
+        <?php
+        //pass PHP consts to JavaScript
+        echo 'var tampoonFirstRate = ' . IC::TAMPOON_FIRST_RATE . ';' . PHP_EOL;
+        echo 'var tampoonSecondRate = ' . IC::TAMPOON_SECOND_RATE . ';' . PHP_EOL;
+        echo 'var minimumQuantityOrder = ' . IC::MINIMUM_Q_ORDER . ';' . PHP_EOL;
+        echo 'var currency = "' . IC::CURRENCY[0] . '";' . PHP_EOL;
+        echo 'var locale = "' . $_SESSION['locale'] . '";' . PHP_EOL;
+        ?>
     </script>
     <script type="text/javascript" src="../js/translations.js"></script>
     <script type="text/javascript" src="../js/script.js"></script>
-    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css"/>
 </head>
 <body>
 <div id="checkvalues">
-    <div onclick="document.getElementById('checkvalues').style.visibility = 'hidden';" id="btnClose"><div style="padding-top: 4px;"><b>X</b></div></div>
+    <div onclick="document.getElementById('checkvalues').style.visibility = 'hidden';" id="btnClose">
+        <div style="padding-top: 4px;"><b>X</b></div>
+    </div>
     <h1>Confirmation</h1>
     <hr/>
     <p id="return_from_checkvalues"></p>
 </div>
 <div id="top">
- <div>
-     <img src="../img/logo-tp.png" style="border: none; width: 200px; margin-right: 10px;" />
- </div>
+    <div>
+        <img src="../img/logo-tp.png" style="border: none; width: 200px; margin-right: 10px;"/>
+        <br><b><?php echo $_SESSION['customer'] ?></b>
+    </div>
     <div>
         <form style="float: left">
-        <select id="fillAction" onchange="if(this.value === 'all'){ fillAllWith1Q(); }else if(this.value == '1'){ fill50ValWithXQ(parseInt(this.value)); }else{ fillXQuantitiesWithXItems(1, 100); }">
-            <option value="all"><?php echo FILL_ALL_WITH_ONE ?></option>
-            <option value="1"><?php echo FILL_50_WITH_1 ?></option>
-            <option value="2"><?php echo FILL_100_WITH_1 ?></option>
-        </select>
+            <select id="fillAction"
+                    onchange="if(this.value === 'all'){ fillAllWith1Q(); }else if(this.value == '1'){ fill50ValWithXQ(parseInt(this.value)); }else{ fillXQuantitiesWithXItems(1, 100); }">
+                <option value="all"><?php echo FILL_ALL_WITH_ONE ?></option>
+                <option value="1"><?php echo FILL_50_WITH_1 ?></option>
+                <option value="2"><?php echo FILL_100_WITH_1 ?></option>
+            </select>
             <p>
-            <a href="#" onclick="clearAllInputsValues();"><?php echo CLEAR_VALUES ?></a>
+                <a href="#" onclick="clearAllInputsValues();"><?php echo CLEAR_VALUES ?></a>
             </p>
         </form>
     </div>
     <div>
-        <input type="text" id="num_items" placeholder="<?php echo DIFF_ITEMS ?>" style="width: 100px;">&nbsp;<input type="text" id="quantity" placeholder="<?php echo Q ?>" style="width: 50px;">
+        <input type="text" id="num_items" placeholder="<?php echo DIFF_ITEMS ?>" style="width: 100px;">&nbsp;<input
+            type="text" id="quantity" placeholder="<?php echo Q ?>" style="width: 50px;">
         <p>
-        <a href="#" onclick="fillXQuantitiesWithXItems(document.getElementById('quantity').value, document.getElementById('num_items').value);"><?php echo FILL ?></a>
+            <a href="#"
+               onclick="fillXQuantitiesWithXItems(document.getElementById('quantity').value, document.getElementById('num_items').value);"><?php echo FILL ?></a>
         </p>
-     </div>
+    </div>
     <div>
         <h2><?php echo STANDING_UNIT ?></h2>
         <p>
-        <label><?php echo NO ?></label>&nbsp;<input type="radio" value="3" name="standing_unit" checked>
-        <label>27 <?php echo UNITS ?></label>&nbsp;<input type="radio" value="1" name="standing_unit" >
-        <label>45 <?php echo UNITS ?></label>&nbsp;<input type="radio" value="2" name="standing_unit" >
+            <label><?php echo NO ?></label>&nbsp;<input type="radio" value="3" name="standing_unit" checked>
+            <label>27 <?php echo UNITS ?></label>&nbsp;<input type="radio" value="1" name="standing_unit">
+            <label>45 <?php echo UNITS ?></label>&nbsp;<input type="radio" value="2" name="standing_unit">
         </p>
     </div>
     <div id="infos"><p id="return_from_makeSum" style="margin-bottom: 0;"></p></div>
@@ -76,46 +83,44 @@ include_once '../translations/label_'.$_SESSION['locale'].'.php';
 </div>
 <div id="main">
     <form method="post" name="the_form">
-<?php
-require_once '../Manager/DatabaseManager.php';
+        <?php
+        require_once '../Manager/DatabaseManager.php';
 
-$dbm = new \Manager\DatabaseManager;
+        $dbm = new \Manager\DatabaseManager;
 
-$outputDBM = $dbm->fetchTampoonInfos(FALSE);
+        $outputDBM = $dbm->fetchTampoonInfos(FALSE);
 
-    foreach($outputDBM as $rows):
+        foreach ($outputDBM as $rows):
 
-        if($rows['quantity'] > 0)
-        {
-            $icon = '../icon'.IC::DS.$rows['reference'].'.jpg';
+            if ($rows['quantity'] > 0) {
+                $icon = '../icon' . IC::DS . $rows['reference'] . '.jpg';
 
-            echo '<div class="container_icon" id="container_'.$rows['reference'].'"><table><tr><td><img class="icon" src="'.$icon.'" /></td></tr>';
-            echo '<tr><td>'.$rows['reference'].'</td></tr>';
-            echo '<tr><td>';
-            echo '<input placeholder="'.$rows['quantity'].'" type="number" min="0" max="'.$rows['quantity'].'" id="'.$rows['reference'].'" name="'.$rows['reference'].'" onclick="makeSum();" ';
-            echo 'onchange="switchDivDisplay(this.value, \'container_'.$rows['reference'].'\')" ';
-            echo 'onfocus="if(document.getElementById(\'checkvalues\').style.visibility === \'visible\') document.getElementById(\'checkvalues\').style.visibility = \'hidden\';"/>';
-            echo '&nbsp;dispo</td></tr>';
-            echo '</table></div>';
+                echo '<div class="container_icon" id="container_' . $rows['reference'] . '"><table><tr><td><img class="icon" src="' . $icon . '" /></td></tr>';
+                echo '<tr><td>' . $rows['reference'] . '</td></tr>';
+                echo '<tr><td>';
+                echo '<input placeholder="' . $rows['quantity'] . '" type="number" min="0" max="' . $rows['quantity'] . '" id="' . $rows['reference'] . '" name="' . $rows['reference'] . '" onclick="makeSum();" ';
+                echo 'onchange="switchDivDisplay(this.value, \'container_' . $rows['reference'] . '\')" ';
+                echo 'onfocus="if(document.getElementById(\'checkvalues\').style.visibility === \'visible\') document.getElementById(\'checkvalues\').style.visibility = \'hidden\';"/>';
+                echo '&nbsp;dispo</td></tr>';
+                echo '</table></div>';
 
-        }else $unavailableItems[] = $rows;
+            } else $unavailableItems[] = $rows;
 
-    endforeach;
-?></form>
-    </div>
+        endforeach;
+        ?></form>
+</div>
 <div id="bottom">
     <?php
 
-    if(isset($unavailableItems))
-    {
-        echo '<hr/><h1>'.INDEX_BOTTOM_MSG.'</h1>';
+    if (isset($unavailableItems)) {
+        echo '<hr/><h1>' . INDEX_BOTTOM_MSG . '</h1>';
 
         foreach ($unavailableItems as $rows):
 
-            $icon = '../icon'.IC::DS.$rows['reference'].'.jpg';
+            $icon = '../icon' . IC::DS . $rows['reference'] . '.jpg';
 
-            echo '<div class="container_icon" id="container_'.$rows['reference'].'"><table><tr><td><img class="icon" src="'.$icon.'" /></td></tr>';
-            echo '<tr><td>'.$rows['reference'].'</td></tr>';
+            echo '<div class="container_icon" id="container_' . $rows['reference'] . '"><table><tr><td><img class="icon" src="' . $icon . '" /></td></tr>';
+            echo '<tr><td>' . $rows['reference'] . '</td></tr>';
             echo '</table></div>';
 
         endforeach;
