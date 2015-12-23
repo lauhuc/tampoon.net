@@ -9,6 +9,7 @@ if(isset($_POST) && count($_POST) > 0)
 {
     session_start();
 
+    require_once '../Model/InitConsts.php';
     require_once '../Manager/UtilitiesManager.php';
 
     $a_cleaned_values = UtilitiesManager::checkEmptyDatasPost($_POST);
