@@ -38,3 +38,8 @@ define('DUPLICATED_MAILS_IN_DB', 'Il y a des doublons avec cet email: contactez 
 define('NO_INSCRIPTIONS_ALLOWED', "Vous n'existez pas dans la base de données. Ce site n'accepte pas d'inscription automatique.");
 define('PASSWD', 'Mot de passe');
 define('PSK', 'Mot de passe provisoire');
+define('FORGOTTEN_PASSWD', 'Mot de passe oublié?');
+define('SEND', 'Envoyer');
+define('RESET_PASSWORD', 'Rétablir votre mot de passe pour tampoon.net');
+define('CLICK_TO_RESET_PASSWD', 'Cliquez sur ce lien pour rétablir votre mot de passe pour tampoon.net');
+define('COPY_RESET_PASSWD_URL', "Copier cet URL dans votre barre d'adresse si le lien au-dessus ne fonctionne pas");

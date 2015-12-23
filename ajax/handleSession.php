@@ -3,31 +3,17 @@
 header('Content-type: text/html; charset="UTF-8";');
 
 use Manager\DatabaseManager;
+use Manager\UtilitiesManager;
 
 if(isset($_POST) && count($_POST) > 0)
 {
     session_start();
 
-    $b_for_chek_empty = TRUE;
-
-    foreach($_POST as $s_key => $s_value):
-
-        $s_strip_spaces = trim($s_value);
-
-        if(empty($s_strip_spaces))
-        {
-            $b_for_chek_empty = FALSE;
-            BREAK;
-
-        }else $a_cleaned_values [$s_key] = $s_strip_spaces;
-
-    endforeach;
-
-    $errorMsg = '';
+    $a_cleaned_values = UtilitiesManager::checkEmptyDatasPost($_POST);
 
     include_once '../translations/label_'.$_SESSION['locale'].'.php';
 
-    if($b_for_chek_empty)
+    if(is_array($a_cleaned_values))
     {
         if(FALSE !== stripos($a_cleaned_values['email'], '@') && FALSE !== stripos($a_cleaned_values['email'], '.'))
         {
@@ -53,10 +39,8 @@ if(isset($_POST) && count($_POST) > 0)
                     echo '<br><br><a href="#" onclick="document.getElementById(\'the_form\').submit();">'.CONNECTION.'</a>';
                 }
 
-            }else $errorMsg .= $output;
+            }else echo $output;
         }
 
-    }else $errorMsg = INPUTS_MANDATORIES;
-
-    if(!empty($errorMsg)) echo 'e<font color="red">'.$errorMsg.'</font>';
+    }else echo INPUTS_MANDATORIES;
 }

@@ -38,3 +38,8 @@ define('DUPLICATED_MAILS_IN_DB', 'This email has several records in the database
 define('NO_INSCRIPTIONS_ALLOWED', "This email has no existence in the datadase. Our webiste accepts no automatic registers");
 define('PASSWD', 'Password');
 define('PSK', 'Pre-shared password');
+define('FORGOTTEN_PASSWD', 'Forgotten password?');
+define('SEND', 'Send');
+define('RESET_PASSWORD', 'Reset password for tampoon.net');
+define('CLICK_TO_RESET_PASSWD', 'Click here to reset your password on tampoon.net');
+define('COPY_RESET_PASSWD_URL', "Copy paste this URL if the link above doesn't work");

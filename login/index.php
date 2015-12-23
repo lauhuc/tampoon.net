@@ -4,9 +4,10 @@ use Manager\DatabaseManager;
 use Manager\UtilitiesManager;
 
 session_start();
+if(!isset($_SESSION['locale'])) $_SESSION['locale'] = 'fr';
 include_once '../translations/label_'.$_SESSION['locale'].'.php'; //entry const file translation
 
-if(isset($_GET['do']) && trim($_GET['do']) === 'logout') unset($_SESSION['customer']);
+if(isset($_GET['do']) && trim($_GET['do']) === 'logout') unset($_SESSION['customer']); //logout
 
 if(count($_POST) > 0)
 {
@@ -24,8 +25,8 @@ if(count($_POST) > 0)
             if(is_bool($firstLoginRequirements))
             {
                 require_once '../Manager/DatabaseManager.php';
-                $mm = new DatabaseManager;
-                $output = $mm->updatePasswdAndlogin($a_cleaned_values);
+                $dm = new DatabaseManager;
+                $output = $dm->updatePasswdAndlogin($a_cleaned_values);
 
                 if(is_bool($output))
                 {
@@ -39,8 +40,8 @@ if(count($_POST) > 0)
         }else //most frequent scenario : when user already registered
         {
             require_once '../Manager/DatabaseManager.php';
-            $mm = new DatabaseManager;
-            $output = $mm->fetchUser($a_cleaned_values['email'], $a_cleaned_values['password']);
+            $dm = new DatabaseManager;
+            $output = $dm->fetchUser($a_cleaned_values['email'], $a_cleaned_values['password']);
 
             if(is_bool($output))
             {
@@ -88,6 +89,15 @@ if(count($_POST) > 0)
             ?>
         </p>
     </form>
+    <div id="recover_passwd_content">
+        <h3><?php echo FORGOTTEN_PASSWD ?></h3>
+        <form name="recover_passwd" id="recover_passwd">
+            <input type="email" name="email_rescue" id="email_rescue" placeholder="Email">
+        </form>
+        <br>
+        <a href="#" onclick="sendResetPasswdLink(document.getElementById('email_rescue').value);"><?php echo SEND ?></a>
+        <p id="return_from_sendResetPasswdLink"></p>
     </div>
+</div>
 </body>
 </html>

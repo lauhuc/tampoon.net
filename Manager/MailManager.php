@@ -20,16 +20,18 @@ class MailManager implements IC
     /**
      * MailManager constructor.
      * @param $p1_email
-     * @param $p2_ref
-     * @param array $p3_files_paths
-     * @param $p4_date
-     * @param $p5_sender
+     * @param $p3_sender
+     * @param $p4_subject
+     * @param $p5_msg
+     * @param array $p6_files_paths
      */
-    public function __construct($p1_email, $p2_ref, array $p3_files_paths, $p4_date, $p5_sender)
+
+    public function __construct($p1_email, $p3_sender, $p4_subject, $p5_msg, array $p6_files_paths = [])
     {
         require '../vendor/autoload.php';
 
         $this->PHPMailer = new \PHPMailer;
+        $this->PHPMailer->CharSet = 'UTF-8';
 
         $this->PHPMailer->isSMTP();
 //Enable SMTP debugging 0 = off (for production use) 1 = client messages 2 = client and server messages
@@ -45,11 +47,14 @@ class MailManager implements IC
         $this->PHPMailer->Password     = IC::GMAIL_PASSWORD;            //BE CAREFUL with the $ when using double quotes!!!
         $this->PHPMailer->setFrom(IC::GMAIL_BOX, IC::SENDER_NAME);
         $this->PHPMailer->addReplyTo(IC::GMAIL_BOX, IC::SENDER_NAME);
-        $this->PHPMailer->addAddress($p1_email, $p5_sender);
-        $this->PHPMailer->Subject = 'Order Ref: '.$p2_ref;
-        $this->PHPMailer->msgHTML('<html><head></head><body><h3>'.TAMPOON_ORDER.' '.$p1_email.' '.THE.' '.$p4_date.'</h3></body></html>');
+        $this->PHPMailer->addAddress($p1_email, $p3_sender);
+        $this->PHPMailer->Subject = $p4_subject;
+        $this->PHPMailer->msgHTML($p5_msg);
 
-        foreach($p3_files_paths as $v) $this->PHPMailer->addAttachment($v);
+        if(count($p6_files_paths) > 0)
+        {
+            foreach($p6_files_paths as $v) $this->PHPMailer->addAttachment($v);
+        }
     }
 
     /**

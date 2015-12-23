@@ -14,3 +14,5 @@ input{ width: 300px; height: 35px; font-weight: bold; font-size: 25px; border-ra
 p{ margin-top: 10px; margin-bottom: 10px; }
 
 #main{ width: 500px; margin-left: auto; margin-right: auto; font-size: 20px; text-align: center; }
+
+#recover_passwd_content{ margin-top: 125px; }

@@ -48,13 +48,15 @@ if(count($_POST) > 0)
             if(IC::SEND_MAIL_ENABLED)
             {
                 include_once '../Manager/MailManager.php';
+                $subject = PURCHASE_ORDER.' at tampoon.net';
+                $msg = '<html><body><h3>Ref: '.$datasPost['clientEmail'].' '.$dbm->dateOrder.'</h3></body></html>';
 
-                $mm = new \Manager\MailManager($datasPost['clientEmail'], $fm->ref, [$fm->pdfPath, ], $dbm->dateOrder, strstr($datasPost['clientEmail'], '@', TRUE));
+                $mm = new \Manager\MailManager($datasPost['clientEmail'], IC::SENDER_NAME, $subject, $msg, [$fm->pdfPath, ]);
                 $output = $mm->send();
 
                 if(is_string($output)) $errorMsg .= $output;
                 
-                $mm2 = new \Manager\MailManager(IC::GMAIL_BOX, $fm->ref, [$fm->pdfPath, $fm->csvPath, ], $dbm->dateOrder, IC::SENDER_NAME);
+                $mm2 = new \Manager\MailManager(IC::GMAIL_BOX, IC::SENDER_NAME, $subject, $msg, [$fm->pdfPath, $fm->csvPath, ]);
                 $output2 = $mm2->send();
 
                 if($output2)

@@ -314,6 +314,41 @@ function handleSession(p1_email)
     }
 }
 
+function sendResetPasswdLink(p1_email_rescue)
+{
+    if(p1_email_rescue.length > 5) //an email contains at least: x@x.xx
+    {
+        document.getElementById('return_from_sendResetPasswdLink').innerHTML = '<img src="../img/spinner.gif" style="border: none;" />';
+
+        var oData = new FormData(document.forms.namedItem('recover_passwd'));
+
+        var oReq = new XMLHttpRequest();
+
+        oReq.open('POST', '../ajax/sendResetPasswdLink.php', true);
+
+        oReq.onload = function(oEvent)
+        {
+            if (oReq.status === 200)
+            {
+                if(oReq.responseText.substr(0, 1) === 'e')
+                {
+                    document.getElementById('return_from_sendResetPasswdLink').innerHTML = oReq.responseText.substr(1);
+
+                }else
+                {
+                    document.getElementById('return_from_sendResetPasswdLink').innerHTML = oReq.responseText;
+                }
+
+            }else
+            {
+                document.getElementById('return_from_sendResetPasswdLink').innerHTML = 'Error ' + oReq.status;
+            }
+        };
+
+        oReq.send(oData);
+    }
+}
+
 function array_rand(input, num_req) {
     //  discuss at: http://phpjs.org/functions/array_rand/
     // original by: Waldo Malqui Silva (http://waldo.malqui.info)
