@@ -24,7 +24,7 @@ class MailManager implements IC
      * @param array $p3_files_paths
      * @param $p4_date
      */
-    public function __construct($p1_email, $p2_ref, array $p3_files_paths, $p4_date)
+    public function __construct($p1_email, $p2_ref, array $p3_files_paths, $p4_date, $p5_sender)
     {
         require '../vendor/autoload.php';
 
@@ -44,8 +44,7 @@ class MailManager implements IC
         $this->PHPMailer->Password     = IC::GMAIL_PASSWORD;            //BE CAREFUL with the $ when using double quotes!!!
         $this->PHPMailer->setFrom(IC::SENDER, IC::SENDER_NAME);
         $this->PHPMailer->addReplyTo(IC::SENDER, IC::SENDER_NAME);
-        $this->PHPMailer->addAddress($p1_email, strstr($p1_email, '@', TRUE));
-        //$this->PHPMailer->addAddress(IC::GMAIL_BOX, IC::SENDER_NAME);
+        $this->PHPMailer->addAddress($p1_email, $p5_sender);
         $this->PHPMailer->Subject = 'Order Ref: '.$p2_ref;
         $this->PHPMailer->msgHTML('<html><head></head><body><h1>Tampoon order from '.$p1_email.' the '.$p4_date.'</h1></body></html>');
 

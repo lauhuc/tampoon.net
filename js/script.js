@@ -65,7 +65,7 @@ function checkValues()
 {
     document.getElementById('checkvalues').style.visibility = 'visible';
 
-    var htmOutput = '<input type="email" class="bigInput" id="clientEmail" name="clientEmail" placeholder="'+translations[locale][2]+'" autofocus value="arthurart85@icloud.com"/><br><br>';
+    var htmOutput = '<input type="email" class="bigInput" id="clientEmail" name="clientEmail" placeholder="'+translations[locale][2]+'" autofocus /><br><br>';
     htmOutput += '<input type="password" class="bigInput" placeholder="'+translations[locale][3]+'" id="password"/> <p id="return_from_processOrder"></p>';
     htmOutput += '<p id="pForProcessOrder"><a href="#" style="font-size: 20px;"  onclick="processOrder();">'+translations[locale][4]+'</a></p>';
 

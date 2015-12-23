@@ -49,10 +49,15 @@ if(count($_POST) > 0)
             {
                 include_once '../Manager/MailManager.php';
 
-                $mm = new \Manager\MailManager($datasPost['clientEmail'], $fm->ref, [$fm->csvPath, $fm->pdfPath, ], $dbm->dateOrder);
+                $mm = new \Manager\MailManager($datasPost['clientEmail'], $fm->ref, [$fm->pdfPath, ], $dbm->dateOrder, strstr($datasPost['clientEmail'], '@', TRUE));
                 $output = $mm->send();
 
-                if($output)
+                if(is_string($output)) $errorMsg .= $output;
+                
+                $mm2 = new \Manager\MailManager(IC::GMAIL_BOX, $fm->ref, [$fm->pdfPath, $fm->csvPath, ], $dbm->dateOrder, IC::SENDER_NAME);
+                $output2 = $mm2->send();
+
+                if($output2)
                 {
                     if(is_file($fm->csvPath)) unlink($fm->csvPath);
 
@@ -60,7 +65,7 @@ if(count($_POST) > 0)
 
                     echo '<font color="green">'.MAILS_SENT.'</font>';
 
-                }else $errorMsg = $output;
+                }else $errorMsg .= $output;
 
             }else $errorMsg .= ENABLE_MAIL;
 
