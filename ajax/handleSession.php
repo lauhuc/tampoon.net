@@ -9,6 +9,8 @@ if(isset($_POST) && count($_POST) > 0)
 {
     session_start();
 
+    require_once '../Manager/UtilitiesManager.php';
+
     $a_cleaned_values = UtilitiesManager::checkEmptyDatasPost($_POST);
 
     include_once '../translations/label_'.$_SESSION['locale'].'.php';
