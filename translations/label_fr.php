@@ -31,3 +31,5 @@ define('UPDATE', 'Mettre à jour');
 define('PURCHASE_ORDER', 'Bon de commande');
 define('CLIENT', 'Client');
 define('CARRIAGE_FREE', 'franco de port');
+define('TAMPOON_ORDER', 'Commande tampoon de');
+define('THE', 'le');

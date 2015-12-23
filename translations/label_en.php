@@ -31,3 +31,5 @@ define('UPDATE', 'Update');
 define('PURCHASE_ORDER', 'Purchase order');
 define('CLIENT', 'Customer');
 define('CARRIAGE_FREE', 'carriage free');
+define('TAMPOON_ORDER', 'Tampoon order from');
+define('THE', 'the');

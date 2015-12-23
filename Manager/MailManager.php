@@ -23,6 +23,7 @@ class MailManager implements IC
      * @param $p2_ref
      * @param array $p3_files_paths
      * @param $p4_date
+     * @param $p5_sender
      */
     public function __construct($p1_email, $p2_ref, array $p3_files_paths, $p4_date, $p5_sender)
     {
@@ -46,10 +47,9 @@ class MailManager implements IC
         $this->PHPMailer->addReplyTo(IC::SENDER, IC::SENDER_NAME);
         $this->PHPMailer->addAddress($p1_email, $p5_sender);
         $this->PHPMailer->Subject = 'Order Ref: '.$p2_ref;
-        $this->PHPMailer->msgHTML('<html><head></head><body><h1>Tampoon order from '.$p1_email.' the '.$p4_date.'</h1></body></html>');
+        $this->PHPMailer->msgHTML('<html><head></head><body><h3>'.TAMPOON_ORDER.' '.$p1_email.' '.THE.' '.$p4_date.'</h3></body></html>');
 
         foreach($p3_files_paths as $v) $this->PHPMailer->addAttachment($v);
-
     }
 
     /**
