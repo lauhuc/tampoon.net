@@ -36,7 +36,7 @@ class DatabaseManager implements IC
 
         $query = 'SELECT email, password
                   FROM tbl_customers
-                  WHERE email = "'.$this->sqli->real_escape_string($p1_email).'"
+                  WHERE TRIM(email) = "'.$this->sqli->real_escape_string($p1_email).'"
                   AND password = "'.sha1($this->sqli->real_escape_string(trim($p2_password))).'"';
 
         $resultFetchMail = $this->sqli->query($query);
@@ -80,7 +80,7 @@ class DatabaseManager implements IC
                 {
                     $query = 'UPDATE tbl_customers
                               SET password = "'.sha1($this->sqli->real_escape_string($a['password_1'])).'"
-                              WHERE email="'.$this->sqli->real_escape_string($a['email']).'"';
+                              WHERE TRIM(email) = "'.$this->sqli->real_escape_string($a['email']).'"';
 
                     $result = $this->sqli->query($query);
 
@@ -128,7 +128,7 @@ class DatabaseManager implements IC
     public function saveOrder(array $p1_datas_post, $p2_filesSaved)
     {
         $queryOne = 'INSERT INTO tbl_orders
-                    SET id_customer = (SELECT id FROM tbl_customers WHERE tbl_customers.email ="'.$this->sqli->real_escape_string($p1_datas_post['clientEmail']).'"),
+                    SET id_customer = (SELECT id FROM tbl_customers WHERE TRIM(tbl_customers.email) = "'.$this->sqli->real_escape_string($p1_datas_post['clientEmail']).'"),
                     date_order = "'.$this->dateOrder.'",
                     total = "'.$this->sqli->real_escape_string($p1_datas_post['total']).'",
                     status = '.$p2_filesSaved.',

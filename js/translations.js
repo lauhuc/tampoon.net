@@ -2,7 +2,7 @@
  * Created by art on 18/12/15.
  */
 var translations = {en: ['You enterred incorrect data!',
-                        'Continue',
+                        'Accept',
                         'Your Email',
                         'Password',
                         'Send',
@@ -12,7 +12,7 @@ var translations = {en: ['You enterred incorrect data!',
                         'You must choose at least 2 differents items!',
                         'Quantity'],
                     fr: ['Vous avez saisi des valeures incorrectes!',
-                        'Continuer',
+                        'Accepter',
                         'Votre Email',
                         'Mot de passe',
                         'Envoyer',
