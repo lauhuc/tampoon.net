@@ -102,32 +102,36 @@ class DatabaseManager implements IC
      */
     public function updateUserPassword(array $a)
     {
-        if(strlen($a['password_1']) > 5)
+        if(strlen($a['password']) > 5)
         {
-            if($a['password_1'] === $a['password_2'])
+            if(sha1($a['password']) !== IC::HASH_PASSWD)
             {
+                $query = 'UPDATE tbl_customers
+                          SET password = "'.sha1($this->sqli->real_escape_string($a['password'])).'"
+                          WHERE TRIM(email) = "'.$this->sqli->real_escape_string($a['email']).'"';
 
-                if(sha1($a['password_1']) !== IC::HASH_PASSWD && sha1($a['password_2']) !== IC::HASH_PASSWD)
+                $result = $this->sqli->query($query);
+
+                if($result)
                 {
-                    $query = 'UPDATE tbl_customers
-                              SET password = "'.sha1($this->sqli->real_escape_string($a['password_1'])).'"
-                              WHERE TRIM(email) = "'.$this->sqli->real_escape_string($a['email']).'"';
+                    $affectedRows = $this->sqli->affected_rows;
 
-                    $result = $this->sqli->query($query);
-
-                    if($result)
+                    if($affectedRows === 1)
                     {
-                        if($this->sqli->affected_rows === 1)
-                        {
-                            return TRUE;
+                        return TRUE;
 
-                        }else return UNEXISTING_EMAIL;
+                    }elseif($affectedRows === 0)
+                    {
+                        return UNEXISTING_EMAIL;
 
-                    }else return $this->sqli->error;
+                    }elseif($affectedRows > 1)
+                    {
+                        return DUPLICATED_MAILS_IN_DB;
+                    }
 
-                }else return DEFINE_NEW_PASSWD;
+                }else return $this->sqli->error;
 
-            }else return MATCH_PASSWORDS;
+            }else return DEFINE_NEW_PASSWD;
 
         }else return MIN_LEN_PASSWD;
     }
@@ -226,7 +230,7 @@ class DatabaseManager implements IC
      * @param array $datasPost
      * @return array|string
      */
-    public function updatePasswdAndlogin(array $datasPost)
+    public function updatePasswdAndlogin(array $datasPost) //for first login only
     {
 
         $query = 'UPDATE tbl_customers

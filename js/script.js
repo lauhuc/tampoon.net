@@ -341,6 +341,38 @@ function sendResetPasswdLink(p1_email_rescue)
     }
 }
 
+function updatePasswd()
+{
+    document.getElementById('return_from_updatePasswd').innerHTML = '<img src="../img/spinner.gif" style="border: none;" />';
+
+    var oData = new FormData(document.forms.namedItem('the_form'));
+
+    var oReq = new XMLHttpRequest();
+
+    oReq.open('POST', '../ajax/updatePasswd.php', true);
+
+    oReq.onload = function(oEvent)
+    {
+        if (oReq.status === 200)
+        {
+            if(oReq.responseText.substr(0, 1) === 'e')
+            {
+                document.getElementById('return_from_updatePasswd').innerHTML = oReq.responseText.substr(1);
+
+            }else
+            {
+                document.getElementById('return_from_updatePasswd').innerHTML = oReq.responseText;
+            }
+
+        }else
+        {
+            document.getElementById('return_from_updatePasswd').innerHTML = 'Error ' + oReq.status;
+        }
+    };
+
+  oReq.send(oData);
+}
+
 function array_rand(input, num_req) {
     //  discuss at: http://phpjs.org/functions/array_rand/
     // original by: Waldo Malqui Silva (http://waldo.malqui.info)

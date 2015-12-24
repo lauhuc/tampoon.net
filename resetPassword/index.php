@@ -24,7 +24,15 @@ if(count($_GET) > 0)
 </head>
 <body>
 <div id="main">
-    it works!
+    <h3><?php echo RESET_PASSWORD ?></h3>
+    <form name="the_form" id="the_form" method="post">
+        <input type="hidden" name="email" value="<?php echo trim($_GET['email']) ?>">
+        <input type="password" name="password" id="password">
+        &nbsp;<span onmouseover="document.getElementById('password').type ='text';" onmouseout="document.getElementById('password').type ='password';">show</span>
+    </form>
+    <p id="return_from_updatePasswd">
+        <a href="#" onclick="updatePasswd();"><?php echo UPDATE ?></a>
+    </p>
 </div>
 </body>
 </html>
