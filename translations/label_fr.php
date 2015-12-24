@@ -9,7 +9,7 @@ define('FILL', 'Remplir');
 define('NO', 'Non');
 define('STANDING_UNIT', 'Présentoir');
 define('UNITS', 'Pièces');
-define('INDEX_BOTTOM_MSG', 'Références écoulées! Disponibles dans un délai de 3 semaines.');
+define('INDEX_BOTTOM_MSG', 'Références épuisées! Disponibles dans un délai de 3 semaines.');
 define('INPUTS_MANDATORIES', 'Tous les champs sont obligatoires!');
 define('ENABLE_MAIL', "Ok mais l'envoie de mails n'est pas activé (dans interface init const)");
 define('UPDATE_PASSWORD', 'Changez <font color="green">ici</font> votre mot de passe puis');
