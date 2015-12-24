@@ -42,4 +42,6 @@ define('FORGOTTEN_PASSWD', 'Mot de passe oublié?');
 define('SEND', 'Envoyer');
 define('RESET_PASSWORD', 'Rétablir votre mot de passe pour tampoon.net');
 define('CLICK_TO_RESET_PASSWD', 'Cliquez sur ce lien pour rétablir votre mot de passe pour tampoon.net');
-define('COPY_RESET_PASSWD_URL', "Copier cet URL dans votre barre d'adresse si le lien au-dessus ne fonctionne pas");
+define('COPY_RESET_PASSWD_URL', "Copier cette URL dans votre barre d'adresse si le lien au-dessus ne fonctionne pas");
+define('AVAILABLE_24H', 'Valable durant 24 heures');
+define('RESET_PASSWD_LINK_EXPIRED', 'Le lien de recouvrement de mot de passe a expiré!');

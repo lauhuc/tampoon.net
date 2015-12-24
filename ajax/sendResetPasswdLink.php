@@ -23,11 +23,20 @@ if(count($_POST) > 0)
 
         if(is_bool($outputdm))
         {
+            //using redis to store temporary hash and email info
+            $hash = sha1(microtime(TRUE));
+            $redis = new \Redis;
+            $redis->connect('127.0.0.1');
+            $redis->set($rescueEmail, $hash, 60*60);
+
             require_once '../Manager/MailManager.php';
 
-            $msg = '<html><body><br><a href="http://tampoon.net/resetPassword/?hash=somethingdynamic">'.CLICK_TO_RESET_PASSWD.'</a>';
+            $resetLink = 'http://tampoon.net/resetPassword/?email='.$rescueEmail.'&hash='.$hash;
+
+            $msg = '<html><body><br><a href="'.$resetLink.'">'.CLICK_TO_RESET_PASSWD.'</a>';
             $msg .= '<br>'.COPY_RESET_PASSWD_URL;
-            $msg .= '<br>http://tampoon.net/resetPassword/?hash=somethingdynamic';
+            $msg .= '<br>'.$resetLink;
+            $msg .= '<br><font color="red>"'.AVAILABLE_24H.'</font>';
             $msg .= '</body></html>';
 
             $mm = new MailManager($rescueEmail, InitConsts::GMAIL_BOX, RESET_PASSWORD, $msg);

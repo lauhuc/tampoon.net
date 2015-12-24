@@ -43,3 +43,5 @@ define('SEND', 'Send');
 define('RESET_PASSWORD', 'Reset password for tampoon.net');
 define('CLICK_TO_RESET_PASSWD', 'Click here to reset your password on tampoon.net');
 define('COPY_RESET_PASSWD_URL', "Copy paste this URL if the link above doesn't work");
+define('AVAILABLE_24H', 'Expires after 24 hours');
+define('RESET_PASSWD_LINK_EXPIRED', 'Your reset password link expired!');
