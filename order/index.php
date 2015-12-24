@@ -12,7 +12,7 @@ if(in_array(trim($_GET['lg']), IC::LOCALE))
 
 include_once '../translations/label_'.$_SESSION['locale'].'.php';
 
-if(!isset($_SESSION['customer'])) header('Location: ../login');
+if(!isset($_SESSION['customer_email'])) header('Location: ../login');
 ?>
 <!DOCTYPE html>
 <html>
@@ -47,7 +47,7 @@ if(!isset($_SESSION['customer'])) header('Location: ../login');
 <div id="top">
     <div>
         <img src="../img/logo-tp.png" style="border: none; width: 200px; margin-right: 10px;"/>
-        <br><a href="../login/?do=logout">Logout(<?php echo $_SESSION['customer'] ?>)</a>
+        <br><a href="../login/?do=logout">Logout(<?php echo $_SESSION['customer_email'] ?>)</a>
     </div>
     <div>
         <form style="float: left">

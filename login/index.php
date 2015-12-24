@@ -7,7 +7,11 @@ session_start();
 if(!isset($_SESSION['locale'])) $_SESSION['locale'] = 'fr';
 include_once '../translations/label_'.$_SESSION['locale'].'.php'; //entry const file translation
 
-if(isset($_GET['do']) && trim($_GET['do']) === 'logout') unset($_SESSION['customer']); //logout
+if(isset($_GET['do']) && trim($_GET['do']) === 'logout'){ //logout
+
+    unset($_SESSION['customer_email']);
+    unset($_SESSION['customer_id']);
+}
 
 if(count($_POST) > 0)
 {
@@ -28,9 +32,10 @@ if(count($_POST) > 0)
                 $dm = new DatabaseManager;
                 $output = $dm->updatePasswdAndlogin($a_cleaned_values);
 
-                if(is_bool($output))
+                if(is_array($output))
                 {
-                    $_SESSION['customer'] = $a_cleaned_values['email'];
+                    $_SESSION['customer_email'] = $output['email'];
+                    $_SESSION['customer_id']    = $output['id'];
                     header('Location: ../order');
 
                 }else $errorMsg = $output;
@@ -43,9 +48,10 @@ if(count($_POST) > 0)
             $dm = new DatabaseManager;
             $output = $dm->fetchUser($a_cleaned_values['email'], $a_cleaned_values['password']);
 
-            if(is_bool($output))
+            if(is_array($output))
             {
-                $_SESSION['customer'] = $a_cleaned_values['email'];
+                $_SESSION['customer_email'] = $output['email'];
+                $_SESSION['customer_id']    = $output['id'];
                 header('Location: ../order');
 
             }else $errorMsg = $output;

@@ -28,13 +28,13 @@ class DatabaseManager implements IC
     /**
      * @param $p1_email
      * @param null $p2_password
-     * @return bool|string
+     * @return array|string
      */
     public function fetchUser($p1_email, $p2_password = NULL)
     {
         if(NULL !== $p2_password)
         {
-            $query = 'SELECT email, password
+            $query = 'SELECT id, email, password
                       FROM tbl_customers
                       WHERE TRIM(email) = "'.$this->sqli->real_escape_string($p1_email).'"
                       AND password = "'.sha1($this->sqli->real_escape_string($p2_password)).'"';
@@ -47,7 +47,7 @@ class DatabaseManager implements IC
 
                 if ($numRows === 1)
                 {
-                    return TRUE;
+                    return $resultFetchMail->fetch_assoc();     //returning array here
 
                 }elseif($numRows === 0)
                 {
@@ -154,12 +154,13 @@ class DatabaseManager implements IC
     /**
      * @param array $p1_datas_post
      * @param $p2_filesSaved
+     * @param $p3_id_customer
      * @return bool|string
      */
-    public function saveOrder(array $p1_datas_post, $p2_filesSaved)
+    public function saveOrder(array $p1_datas_post, $p2_filesSaved, $p3_id_customer)
     {
         $queryOne = 'INSERT INTO tbl_orders
-                    SET id_customer = (SELECT id FROM tbl_customers WHERE TRIM(tbl_customers.email) = "'.$this->sqli->real_escape_string($p1_datas_post['clientEmail']).'"),
+                    SET id_customer = '.$p3_id_customer.',
                     date_order = "'.$this->dateOrder.'",
                     total = "'.$this->sqli->real_escape_string($p1_datas_post['total']).'",
                     status = '.$p2_filesSaved.',
@@ -181,9 +182,9 @@ class DatabaseManager implements IC
                     $onlyTampoonInfos[$tampoonRef] = $v;
 
                     $queryTwo = 'INSERT INTO tbl_orders_details
-                                  SET id_order = '.$insertIdQueryOne.',
-                                    id_tampoon = (SELECT id FROM tbl_tampoons WHERE tbl_tampoons.reference = "'.$tampoonRef.'"),
-                                    quantity = '.(int)$v;
+                                 SET id_order = '.$insertIdQueryOne.',
+                                  id_tampoon = (SELECT id FROM tbl_tampoons WHERE tbl_tampoons.reference = "'.$tampoonRef.'"),
+                                  quantity = '.(int)$v;
 
                     $resultTwo = $this->sqli->query($queryTwo);
 
@@ -223,7 +224,7 @@ class DatabaseManager implements IC
 
     /**
      * @param array $datasPost
-     * @return bool|string
+     * @return array|string
      */
     public function updatePasswdAndlogin(array $datasPost)
     {
@@ -241,7 +242,7 @@ class DatabaseManager implements IC
 
             if ($affectedRows === 1)
             {
-                return TRUE;
+                return $this->fetchUser($datasPost['email'], $datasPost['new_password']);
 
             }elseif($affectedRows === 0)
             {

@@ -65,64 +65,56 @@ function checkValues()
 {
     document.getElementById('checkvalues').style.visibility = 'visible';
 
-    var htmOutput = '<input type="email" class="bigInput" id="clientEmail" name="clientEmail" placeholder="'+translations[locale][2]+'" autofocus /><br><br>';
-    htmOutput += '<input type="password" class="bigInput" placeholder="'+translations[locale][3]+'" id="password"/> <p id="return_from_processOrder"></p>';
-    htmOutput += '<p id="pForProcessOrder"><a href="#" style="font-size: 20px;"  onclick="processOrder();">'+translations[locale][4]+'</a></p>';
+    var htmOutput = '<p id="pForProcessOrder"><a href="#" style="font-size: 20px;"  onclick="processOrder();">'+translations[locale][4]+'</a></p><p id="return_from_processOrder"></p>';
 
     document.getElementById('return_from_checkvalues').innerHTML = htmOutput;
 }
 
 function processOrder()
 {
-    var email = document.getElementById('clientEmail').value;
 
-    if(email != '')
+    var standingUnits = document.getElementsByName('standing_unit');
+    var containerSendMailLink = document.getElementById('pForProcessOrder');
+    containerSendMailLink.innerHTML = '<img src="../img/spinner.gif" style="border: none;" />';
+
+    var oData = new FormData(document.forms.namedItem('the_form'));
+    var oReq = new XMLHttpRequest();
+
+    oReq.open('POST', '../ajax/processOrder.php', true);
+
+    oData.append('quantityTampoon', sum);
+    oData.append('total', total);
+
+    for(var i = 0; i < standingUnits.length; i++)
     {
-        var standingUnits = document.getElementsByName('standing_unit');
-        var containerSendMailLink = document.getElementById('pForProcessOrder');
-        containerSendMailLink.innerHTML = '<img src="../img/spinner.gif" style="border: none;" />';
-
-        var oData = new FormData(document.forms.namedItem('the_form'));
-        var oReq = new XMLHttpRequest();
-
-        oReq.open('POST', '../ajax/processOrder.php', true);
-
-        oData.append('clientEmail', email);
-        oData.append('password', document.getElementById('password').value);
-        oData.append('quantityTampoon', sum);
-        oData.append('total', total);
-
-        for(var i = 0; i < standingUnits.length; i++)
+        if(standingUnits[i].checked)
         {
-            if(standingUnits[i].checked)
-            {
-                oData.append('standingUnit', standingUnits[i].value);
-            }
+            oData.append('standingUnit', standingUnits[i].value);
         }
+    }
 
-        oReq.onload = function(oEvent)
+    oReq.onload = function(oEvent)
+    {
+        if (oReq.status === 200)
         {
-            if (oReq.status === 200)
+            if(oReq.responseText.substr(0,1) === 'e')
             {
-                if(oReq.responseText.substr(0,1) === 'e')
-                {
-                    containerSendMailLink.innerHTML = '<a href="#" style="font-size: 16px;"  onclick="processOrder();">'+translations[locale][4]+'</a>';
-                    document.getElementById('return_from_processOrder').innerHTML = oReq.responseText.substr(1);
+                containerSendMailLink.innerHTML = '<a href="#" style="font-size: 16px;"  onclick="processOrder();">'+translations[locale][4]+'</a>';
+                document.getElementById('return_from_processOrder').innerHTML = oReq.responseText.substr(1);
 
-                }else
-                {
-                    containerSendMailLink.innerHTML = '';
-                    document.getElementById('return_from_processOrder').innerHTML = oReq.responseText;
-                }
-
-            } else {
-                document.getElementById('return_from_processOrder').innerHTML = 'Error ' + oReq.status;
+            }else
+            {
+                containerSendMailLink.innerHTML = '';
+                document.getElementById('return_from_processOrder').innerHTML = oReq.responseText;
             }
-        };
 
-        oReq.send(oData);
+        }else{
 
-    }else{ alert(translations[locale][5]); }
+            document.getElementById('return_from_processOrder').innerHTML = 'Error ' + oReq.status;
+        }
+    };
+
+    oReq.send(oData);
 }
 
 function clearAllInputsValues()

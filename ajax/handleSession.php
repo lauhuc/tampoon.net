@@ -8,13 +8,12 @@ use Manager\UtilitiesManager;
 if(isset($_POST) && count($_POST) > 0)
 {
     session_start();
+    include_once '../translations/label_'.$_SESSION['locale'].'.php';
 
     require_once '../Model/InitConsts.php';
     require_once '../Manager/UtilitiesManager.php';
 
     $a_cleaned_values = UtilitiesManager::checkEmptyDatasPost($_POST);
-
-    include_once '../translations/label_'.$_SESSION['locale'].'.php';
 
     if(is_array($a_cleaned_values))
     {

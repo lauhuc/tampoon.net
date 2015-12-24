@@ -77,9 +77,10 @@ class FileManager implements IC
 
     /**
      * @param array $p1_datas_post
+     * @param $p2_email_customer
      * @return bool|string
      */
-    public function formatAndWritePDF(array $p1_datas_post)
+    public function formatAndWritePDF(array $p1_datas_post, $p2_email_customer)
     {
         $this->pdfPath = pathinfo(__DIR__)['dirname'].IC::DS.'pdf'.IC::DS.$this->ref.'.pdf';
 
@@ -96,7 +97,7 @@ class FileManager implements IC
 
         $htmlOutput .= '<br>Total h.t., '.CARRIAGE_FREE.': '.$p1_datas_post['total'].' '.IC::CURRENCY[0];
         $htmlOutput .= '<br>Date: <b>'.$this->date.'</b>';
-        $htmlOutput .= '<br>'.strtoupper(CLIENT).': <b>'.$p1_datas_post['clientEmail'].'</b></div>';
+        $htmlOutput .= '<br>'.strtoupper(CLIENT).': <b>'.$p2_email_customer.'</b></div>';
         $htmlOutput .= '<div id="icons">'.PHP_EOL.'<table>';
 
         $i = 0;
